@@ -17,14 +17,7 @@ const people = [{
 
 class PersonApi {
     static getAll(data) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(Object.assign([], people));
-            }, delay);
-        });
-
-        //db.doGet('', data);
-
+        return db.doGet('http://reactpeoplesearch.azurewebsites.net/api/Person/GetPeople', data);
     }
     static save(person) {
         return new Promise((resolve, reject) => {

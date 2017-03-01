@@ -1,6 +1,14 @@
-export default {
+import axios from 'axios';
+
+export default {    
+    //returns a promise
     doGet(url, data){
-        return $.get(url, data);
+
+        let params = data;
+        
+        return axios.get(url, {params:params});
+
+        //return $.get(url, data);
     },
     doPost(url, data){
         return $.post(url, data);

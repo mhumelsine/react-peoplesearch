@@ -4,6 +4,7 @@ import * as personActions from '../../actions/personActions';
 import { bindActionCreators } from 'redux';
 import SearchForm from './SearchForm';
 import PersonList from './PersonList';
+import toastr from 'toastr';
 
 class SearchPage extends React.Component {
     constructor(props, context) {
@@ -12,7 +13,11 @@ class SearchPage extends React.Component {
         this.state = {
             errors: {},
             people: [],
-            search:{}
+            search:{
+                firstName:'',
+                lastName:'',
+                birthDate:''
+            }
         };
 
         this.updateGrid = this.updateGrid.bind(this);
@@ -22,22 +27,32 @@ class SearchPage extends React.Component {
         this.setState(Object.assign({}, newProps.people));
     }
 
-    updateGrid() {
+    updateGrid(event) {
+        event.preventDefault();
+        this.setState({loading:true});
 
+        let search = this.state.search;
+
+        //mapping button here is why key is blank
+        if(event.target.name){
+            search[event.target.name] = event.target.value;
+        }        
+
+        this.setState({search:search});
+
+        this.props.actions.loadPeople(this.state.search)
+            .then(() => this.loadComplete())
+            .catch(error => this.handleError(error));        
     }
 
-    showResults(){
-        const people = this.props.people;
+    loadComplete(){
+        this.setState({loading:false});
+        //toastr.success('New people were loaded');
+    }
 
-        if(people.length){
-            return <PersonList people={people} />;
-        }else{
-            return (
-                <div className="alert alert-warning">
-                    We did not find anyone.
-                </div>
-            );
-        }
+    handleError(error){
+        this.setState({loading:false});
+        toastr.error(error);
     }
 
     render() {
@@ -51,19 +66,22 @@ class SearchPage extends React.Component {
                     search={this.state.search}
                 />
                 
-                {this.showResults()}
+                <PersonList people={this.props.people} />
             </div>
         );
     }
 }
 
 SearchPage.propTypes = {
-    people:PropTypes.arrayOf(PropTypes.object).isRequired
+    people:PropTypes.arrayOf(PropTypes.object).isRequired,
+    actions:PropTypes.object.isRequired,
+    search:PropTypes.object.isRequired
 };
 
-function mapStateToProps(state, onwProps) {
+function mapStateToProps(state, ownProps) {
     return {
-        people: state.people
+        people: state.people,
+        search:state.search
     };
 }
 

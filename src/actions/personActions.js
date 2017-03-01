@@ -6,12 +6,12 @@ export function loadPeopleSuccess(people){
     return {type:actionTypes.LOAD_PEOPLE_SUCCESS, people};
 }
 
-export function loadPeople(){
+export function loadPeople(search){
     return function (dispatch){
         dispatch(ajax.beginAjaxRequest());//sets state to ajax request in progress
-        return personApi.getAll()
-            .then(people => {
-                dispatch(loadPeopleSuccess(people));
+        return personApi.getAll(search)
+            .then(response => {
+                dispatch(loadPeopleSuccess(response.data));
             })
             .catch(error => {
                 throw(error);
