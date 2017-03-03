@@ -11,6 +11,6 @@ export default {
         //return $.get(url, data);
     },
     doPost(url, data){
-        return $.post(url, data);
+        return axios.post(url, data);
     }
 };

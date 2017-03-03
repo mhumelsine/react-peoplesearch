@@ -6,7 +6,7 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
     return (
         <form>
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <TextInput
                         name="firstName"
                         label="First Name"
@@ -15,7 +15,7 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
                         error={errors.name}
                         />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <TextInput
                         name="lastName"
                         label="Last Name"
@@ -27,7 +27,7 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
             </div>
 
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <TextInput
                         name="BirthDate"
                         label="Birth Date"
@@ -38,7 +38,7 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <TextInput
                         name="Gender"
                         label="Gender"

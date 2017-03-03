@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import SearchForm from './SearchForm';
 import PersonList from './PersonList';
 import toastr from 'toastr';
+import {Link} from 'react-router';
 
 class SearchPage extends React.Component {
     constructor(props, context) {
@@ -12,7 +13,6 @@ class SearchPage extends React.Component {
 
         this.state = {
             errors: {},
-            people: [],
             search:{
                 firstName:'',
                 lastName:'',
@@ -21,10 +21,6 @@ class SearchPage extends React.Component {
         };
 
         this.updateGrid = this.updateGrid.bind(this);
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.setState(Object.assign({}, newProps.people));
     }
 
     updateGrid(event) {
@@ -65,7 +61,7 @@ class SearchPage extends React.Component {
                     errors={this.state.errors}
                     search={this.state.search}
                 />
-                
+                <Link to={'person/edit/'}>Add Person</Link>
                 <PersonList people={this.props.people} />
             </div>
         );
@@ -75,7 +71,7 @@ class SearchPage extends React.Component {
 SearchPage.propTypes = {
     people:PropTypes.arrayOf(PropTypes.object).isRequired,
     actions:PropTypes.object.isRequired,
-    search:PropTypes.object.isRequired
+    search:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

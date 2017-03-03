@@ -1,37 +1,14 @@
 import db from './request';
 
-const delay = 1000;
-
-const people = [{
-    firstName: 'Michael',
-    lastName: 'Humelsine',
-    birthDate: '01/01/1903',
-    gender: 'Male'
-},
-{
-    firstName: 'Tim',
-    lastName: 'Thacker',
-    birthDate: '01/01/1906',
-    gender: 'Male'
-}];
+const baseUri = "http://reactpeoplesearch.azurewebsites.net/";
+//const baseUri = "http://localhost:59206/";
 
 class PersonApi {
     static getAll(data) {
-        return db.doGet('http://reactpeoplesearch.azurewebsites.net/api/Person/GetPeople', data);
+        return db.doGet(baseUri + 'api/Person/GetPeople', data);
     }
     static save(person) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                if (person.id) {
-                    const index = people.findIndex(x => x.id === person.id);
-                    people[index] = person;
-                } else {
-                    person.id = (people.length ? people[people.length - 1].id + 1 : 1);
-                    people.push(person);
-                }
-                resolve(person);
-            }, delay);
-        });
+        return db.doPost(baseUri+'api/Person/Save', person);
     }
 }
 
