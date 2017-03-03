@@ -1,6 +1,7 @@
 import React from 'react';
 import SelectInput from '../common/SelectInput';
 import TextInput from '../common/TextInput';
+import {Link} from 'react-router';
 
 const SearchForm = ({search, onSearch, onChange, errors}) => {
     return (
@@ -49,10 +50,11 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-2">
                     <button type="button" onClick={onSearch} className="btn btn-primary">Search</button>
+                    <Link to={'person/edit/'} className="btn btn-primary pull-right">Add Person</Link>
                 </div>
-            </div>
+            </div>            
         </form>
     );
 };

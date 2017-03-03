@@ -22,7 +22,6 @@ export function loadPeople(search) {
                 dispatch(loadPeopleSuccess(response.data));
             })
             .catch(error => {
-                debugger;
                 throw (error);
             });
     };

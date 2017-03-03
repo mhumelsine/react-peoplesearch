@@ -60,8 +60,7 @@ class SearchPage extends React.Component {
                     onSearch={this.updateGrid}
                     errors={this.state.errors}
                     search={this.state.search}
-                />
-                <Link to={'person/edit/'}>Add Person</Link>
+                />                
                 <PersonList people={this.props.people} />
             </div>
         );
