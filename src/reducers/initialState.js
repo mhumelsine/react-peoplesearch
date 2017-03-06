@@ -1,4 +1,5 @@
 export default {
     people:[],
-    numberOfAjaxCallsInProgress:0
+    numberOfAjaxCallsInProgress:0,
+    search:{}
 };

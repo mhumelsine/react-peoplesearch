@@ -6,6 +6,7 @@ import SearchForm from './SearchForm';
 import PersonList from './PersonList';
 import toastr from 'toastr';
 import {Link} from 'react-router';
+import Loading from '../common/Loading';
 
 class SearchPage extends React.Component {
     constructor(props, context) {
@@ -13,32 +14,30 @@ class SearchPage extends React.Component {
 
         this.state = {
             errors: {},
-            search:{
-                firstName:'',
-                lastName:'',
-                birthDate:''
-            }
+            loading:false
         };
 
         this.updateGrid = this.updateGrid.bind(this);
+    }
+
+    refreshGrid(search){
+        this.props.actions.loadPeople(search)
+            .then(() => this.loadComplete())
+            .catch(error => this.handleError(error));  
     }
 
     updateGrid(event) {
         event.preventDefault();
         this.setState({loading:true});
 
-        let search = this.state.search;
+        let search = Object.assign({}, this.props.search);
 
         //mapping button here is why key is blank
         if(event.target.name){
             search[event.target.name] = event.target.value;
         }        
 
-        this.setState({search:search});
-
-        this.props.actions.loadPeople(this.state.search)
-            .then(() => this.loadComplete())
-            .catch(error => this.handleError(error));        
+        this.refreshGrid(search);    
     }
 
     loadComplete(){
@@ -52,6 +51,19 @@ class SearchPage extends React.Component {
     }
 
     render() {
+
+        let list = null;
+
+        if(this.state.loading){
+            list = (
+            <div className="relative">
+                <Loading />
+            </div>
+            );
+        } else {
+            list = <PersonList people={this.props.people} />;
+        }        
+
         return (
             <div>
                 <h1>Search</h1>
@@ -59,9 +71,9 @@ class SearchPage extends React.Component {
                     onChange={this.updateGrid}
                     onSearch={this.updateGrid}
                     errors={this.state.errors}
-                    search={this.state.search}
-                />                
-                <PersonList people={this.props.people} />
+                    search={this.props.search}
+                />               
+                {list}
             </div>
         );
     }

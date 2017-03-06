@@ -3,7 +3,6 @@ import axios from 'axios';
 export default {    
     //returns a promise
     doGet(url, data){
-
         let params = data;
         
         return axios.get(url, {params:params});
