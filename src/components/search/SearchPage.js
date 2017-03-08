@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import SearchForm from './SearchForm';
 import PersonList from './PersonList';
 import toastr from 'toastr';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import Loading from '../common/Loading';
 
 class SearchPage extends React.Component {
@@ -14,81 +14,95 @@ class SearchPage extends React.Component {
 
         this.state = {
             errors: {},
-            loading:false
+            loading: false,
+            search: props.search,
+            searchInProgress: undefined
         };
 
         this.updateGrid = this.updateGrid.bind(this);
     }
 
-    refreshGrid(search){
-        this.props.actions.loadPeople(search)
+    refreshGrid(search) {
+
+        if (this.state.searchInProgress) {
+            clearTimeout(this.state.searchInProgress);
+        }
+
+        let searchInProgress = setTimeout(() => this.props.actions.loadPeople(search)
             .then(() => this.loadComplete())
-            .catch(error => this.handleError(error));  
+            .catch(error => this.handleError(error)), 300);
+
+        this.setState({
+            searchInProgress: searchInProgress,
+            search: search
+        });
     }
 
     updateGrid(event) {
         event.preventDefault();
-        this.setState({loading:true});
+        this.setState({ loading: true });
 
         let search = Object.assign({}, this.props.search);
 
         //mapping button here is why key is blank
-        if(event.target.name){
+        if (event.target.name) {
             search[event.target.name] = event.target.value;
-        }        
+        }
 
-        this.refreshGrid(search);    
+        this.refreshGrid(search);
     }
 
-    loadComplete(){
-        this.setState({loading:false});
+    loadComplete() {
+        this.setState({ loading: false });
         //toastr.success('New people were loaded');
     }
 
-    handleError(error){
-        this.setState({loading:false});
+    handleError(error) {
+        this.setState({ loading: false });
         toastr.error(error);
     }
 
     render() {
 
-        let list = null;
+        let loading = null;
 
-        if(this.state.loading){
-            list = (
-            <div className="relative">
-                <Loading />
-            </div>
+        if (this.state.loading) {
+            loading = (
+                <div className="relative">
+                    <Loading />
+                </div>
             );
-        } else {
-            list = <PersonList people={this.props.people} />;
-        }        
+        }
 
         return (
-            <div>
-                <h1>Search</h1>
-                <SearchForm
-                    onChange={this.updateGrid}
-                    onSearch={this.updateGrid}
-                    errors={this.state.errors}
-                    search={this.props.search}
-                />               
-                {list}
+            <div className="row">
+                <div className="col-md-8 col-md-offset-2">
+                    <h1>Search</h1>
+                    <SearchForm
+                        onChange={this.updateGrid}
+                        onSearch={this.updateGrid}
+                        errors={this.state.errors}
+                        search={this.state.search}
+                    />
+                    <br />
+                    {loading}
+                    <PersonList people={this.props.people} />
+                </div>
             </div>
         );
     }
 }
 
 SearchPage.propTypes = {
-    people:PropTypes.arrayOf(PropTypes.object).isRequired,
-    actions:PropTypes.object.isRequired,
-    search:PropTypes.object
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
+    actions: PropTypes.object.isRequired,
+    search: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
     return {
         people: state.people,
-        search:state.search
+        search: state.search
     };
 }
 

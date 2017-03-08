@@ -2,6 +2,7 @@ import React from 'react';
 import SelectInput from '../common/SelectInput';
 import TextInput from '../common/TextInput';
 import {Link} from 'react-router';
+import {Button, Col, Row} from 'reactstrap';
 
 const SearchForm = ({search, onSearch, onChange, errors}) => {
     return (
@@ -37,8 +38,6 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
                         error={errors.name}
                         />
                 </div>
-            </div>
-            <div className="row">
                 <div className="col-md-3">
                     <TextInput
                         name="Gender"
@@ -50,9 +49,9 @@ const SearchForm = ({search, onSearch, onChange, errors}) => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-2">
-                    <button type="button" onClick={onSearch} className="btn btn-primary">Search</button>
-                    <Link to={'person/edit/'} className="btn btn-primary pull-right">Add Person</Link>
+                <div className="col-md-8">
+                    <button type="button" onClick={onSearch} className="btn btn-primary" style={{marginRight:'10px'}}>Search</button>
+                    <Link to={'person/edit/'} className="btn btn-primary">Add Person</Link>
                 </div>
             </div>            
         </form>

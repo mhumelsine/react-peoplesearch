@@ -2,14 +2,14 @@ body {
   overflow: hidden;
 }
 .spinner div {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   left: -20px;
   top: 40px;
-  background-color: #333;
+  background-color: #337ab7;
   border-radius: 50%;
-  animation: move 3s infinite cubic-bezier(.2,.64,.81,.23);
+  animation: move 2s infinite cubic-bezier(.2,.64,.81,.23);
 }
 .spinner div:nth-child(2) {
   animation-delay: 100ms;
