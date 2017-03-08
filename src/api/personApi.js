@@ -1,7 +1,7 @@
 import db from './request';
 
-//const baseUri = "http://reactpeoplesearch.azurewebsites.net/";
-const baseUri = "http://localhost:59206/";
+const baseUri = "http://reactpeoplesearch.azurewebsites.net/";
+//const baseUri = "http://localhost:59206/";
 
 class PersonApi {
     static getAll(data) {
